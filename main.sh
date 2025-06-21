@@ -101,7 +101,7 @@ clear
 log_section "A instalar ficheiros adicionais externos (droidCam, autenticação-gov)"
 
 #instalar droidcam
-sudo dnf install -y ./tmp/droidcam.client.setup.rpm
+sudo dnf install -y ./tmp/droidCam.client.setup.rpm
 sudo dnf install -y "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -e %fedora).noarch.rpm" "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -e %fedora).noarch.rpm"
 sudo dnf install -y kernel-headers v4l2loopback
 #instalar autenticação-gov & plugin-autenticação.gov
