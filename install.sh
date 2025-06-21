@@ -178,22 +178,19 @@ verificar_dependencias
 verificar_ligacao
 iniciar_logs
 transferir_auxiliares
+#ficheiros_extra
 
 # importar e verificar os ficheiros descarregados
 
-#for file in main.sh localizacao.sh montar_hdd.sh bluetooth.sh ficheiros_extra.sh; do
-#path="${script_dir}/${file}"
-#if [[ -f "$path" ]]; then
-#source "$path"
-#else
-#erro "Ficheiro não encontrado: $file"
-#exit 1
-#fi
-#done
-
-source "./scripts/main.sh" 
-
-ficheiros_extra
+for file in main.sh localizacao.sh montar_hdd.sh bluetooth.sh ficheiros_extra.sh; do
+path="${script_dir}/${file}"
+if [[ -f "$path" ]]; then
+source "$path"
+else
+erro "Ficheiro não encontrado: $file"
+exit 1
+fi
+done
 
 while true; do
 mostrar_menu
