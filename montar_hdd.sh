@@ -3,7 +3,7 @@
 function montar_hdd() {
 clear
 log_section "a montar disco de restauro"
-mount_point="/mnt/restauro"
+mount_point="/mnt/Restauro"
 uuid="f794f76e-0e02-4c91-89ce-61feaccb35c7"
 # cria o ponto de montagem, se não existir
 if [ ! -d "$mount_point" ]; then
