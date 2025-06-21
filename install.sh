@@ -2,8 +2,8 @@
 # linguagem pt-pt
 export LANG=pt_PT.UTF-8
 # debug
-set -e
-#set -xe
+#set -e
+set -xe
 
 # Cores para mensagens
 vermelho="\033[1;31m"
@@ -50,6 +50,7 @@ function iniciar_logs() {
 local text="$1"
 info "${text}"
 exec > >(tee -a "$log") 2>&1
+mkdir="$script_dir" && mkdir="$tmp_dir"
 }
 
 # Dependências satisfeitas?
