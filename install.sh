@@ -78,7 +78,7 @@ sucesso "Conectividade está OK."
 
 # descarregar ficheiros auxiliares
 function transferir_auxiliares() {
-auxiliares=("main.sh" "localizacao.sh" "montar_hdd.sh" "bluetooth.sh")
+auxiliares=("main.sh" "localizacao.sh" "montar_hdd.sh" "bluetooth.sh" "ficheiros_extra.sh")
 base_url="https://raw.githubusercontent.com/moanrial/fedora-nexus/main"
 
 for ficheiro in "${auxiliares[@]}"; do
@@ -180,7 +180,7 @@ transferencia_ficheiros_extra
 
 # importar e verificar os ficheiros descarregados
 
-for file in main.sh localizacao.sh montar_hdd.sh bluetooth.sh; do
+for file in main.sh localizacao.sh montar_hdd.sh bluetooth.sh ficheiros_extra.sh; do
 path="${script_dir}/${file}"
 if [[ -f "$path" ]]; then
 source "$path"
@@ -189,11 +189,6 @@ erro "Ficheiro não encontrado: $file"
 exit 1
 fi
 done
-
-#source "${tmp_dir}/main.sh"
-#source "${tmp_dir}/localizacao.sh"
-#source "${tmp_dir}/montar_hdd.sh"
-#source "${tmp_dir}/bluetooth.sh"
 
 while true; do
 mostrar_menu
