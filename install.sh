@@ -2,8 +2,8 @@
 # linguagem pt-pt
 export LANG=pt_PT.UTF-8
 # debug
-#set -e
-set -xe
+set -e
+#set -xe
 
 # Cores para mensagens
 vermelho="\033[1;31m"
