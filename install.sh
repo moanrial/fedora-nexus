@@ -29,6 +29,7 @@ erro() { echo -e "${vermelho}[ERRO]${reset} $1"; }
 log="./instalador.log"
 tmp_dir="./tmp"
 apagar_log_automaticamente=false
+script_dir="./scripts"
 
 ### --- funções --- ###
 function log_section() {
@@ -44,12 +45,11 @@ trap '[ -n "$sudo_keep_alive_pid" ] && kill "$sudo_keep_alive_pid"' exit
 clear
 }
 
-### --- Gerador de Log e Pastas --- ###
+### --- Gerador de Log --- ###
 function iniciar_logs() {
 local text="$1"
 info "${text}"
 exec > >(tee -a "$log") 2>&1
-mkdir -p "$tmp_dir"
 }
 
 # Dependências satisfeitas?
@@ -59,7 +59,6 @@ for cmd in "${dependencias[@]}"; do
 if ! command -v "$cmd" > /dev/null 2>&1; then
 erro "Erro: o comando '$cmd' não está instalado."
 sleep 2
-rm -r "$tmp_dir"
 exit 1
 fi
 done
@@ -72,7 +71,6 @@ info "A verificar conectividade com a Internet."
 if ! ping -c 1 1.1.1.1 > /dev/null 2>&1 && ! ping -c 1 google.com > /dev/null 2>&1; then
 erro "Sem ligação à Internet ou DNS."
 sleep 2
-rm -r "$tmp_dir"
 exit 1
 fi
 sucesso "Conectividade está OK."
@@ -84,14 +82,13 @@ auxiliares=("main.sh" "localizacao.sh" "montar_hdd.sh" "bluetooth.sh")
 base_url="https://raw.githubusercontent.com/moanrial/fedora-nexus/main"
 
 for ficheiro in "${auxiliares[@]}"; do
-destino="${tmp_dir}/${ficheiro}"
+destino="${script_dir}/${ficheiro}"
 if [[ ! -f "$destino" ]]; then
-loading "→ A transferir ${ficheiro} para ${tmp_dir}."
+loading "→ A transferir ${ficheiro} para ${script_dir}."
 curl -fssl "${base_url}/${ficheiro}" -o "$destino"
 if [[ $? -ne 0 ]]; then
 erro "Erro ao transferir ${ficheiro}."
 sleep 2
-rm -r "$tmp_dir"
 exit 1
 fi
 fi
@@ -206,14 +203,14 @@ log_section "Credenciais necessárias!"
 manter_sudo_ativo
 verificar_dependencias
 verificar_ligacao
-iniciar_logs "A gerar pastas temporárias e logs"
+iniciar_logs
 transferir_auxiliares
 transferencia_ficheiros_extra
 
 # importar e verificar os ficheiros descarregados
 
 for file in main.sh localizacao.sh montar_hdd.sh bluetooth.sh; do
-path="${tmp_dir}/${file}"
+path="${script_dir}/${file}"
 if [[ -f "$path" ]]; then
 source "$path"
 else
