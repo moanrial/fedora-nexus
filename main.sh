@@ -100,22 +100,6 @@ function instalar_ficheiros_adicionais() {
 clear
 log_section "A INSTALAR FICHEIROS ADICIONAIS EXTERNOS (DROIDCAM, AUTENTICAÇÃO-GOV)"
 
-#TRANSFERÊNCIA DOS FICHEIROS
-echo "${YELLOW}A TRANSFERIR FICHEIROS...${RESET}"
-if ! wget -q -O ./tmp/droidcam-client.rpm "https://droidcam.app/go/droidCam.client.setup.rpm"; then
-echo "FALHA AO TRANSFERIR DROIDCAM-CLIENT.RPM"
-exit 1
-fi
-if ! wget -q -O ./tmp/autenticacao-gov.flatpak "https://aplicacoes.autenticacao.gov.pt/apps/pteid-mw-pcsclite-2.3.flatpak"; then
-echo "FALHA AO TRANSFERIR AUTENTICACAO-GOV.FLATPAK"
-exit 1
-fi
-if ! wget -q -O ./tmp/plugin-autenticacao-gov.rpm "https://aplicacoes.autenticacao.gov.pt/plugin/plugin-autenticacao-gov_fedora.rpm"; then
-echo "FALHA AO TRANSFERIR PLUGIN-AUTENTICACAO-GOV_FEDORA.RPM"
-exit 1
-fi
-echo "${GREEN}FICHEIROS TRANSFERIDOS COM SUCESSO.${RESET}"
-
 #INSTALAR DROIDCAM
 sudo dnf install -y ./tmp/droidcam-client.rpm
 sudo dnf install -y "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
