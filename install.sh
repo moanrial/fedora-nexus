@@ -177,7 +177,6 @@ verificar_dependencias
 verificar_ligacao
 iniciar_logs
 transferir_auxiliares
-ficheiros_extra
 
 # importar e verificar os ficheiros descarregados
 
@@ -190,6 +189,8 @@ erro "Ficheiro não encontrado: $file"
 exit 1
 fi
 done
+
+ficheiros_extra
 
 while true; do
 mostrar_menu
