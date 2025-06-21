@@ -1,3 +1,5 @@
+# Transferencia de ficheiros extra.
+
 function transferencia_ficheiros_extra() {
 # transferência do droidcam & autenticacao-gov
 info "A transferir ficheiros extra."
