@@ -5,7 +5,7 @@ clear
 log_section "A adicionar localização ao Gnome-Weather."
 chmod +x ./tmp/add-location-to-gnome-weather.sh
 ./tmp/add-location-to-gnome-weather.sh
-suceso "Finalizado."
+sucesso "Finalizado."
 sleep 1.5
 clear
 }
