@@ -95,7 +95,7 @@ fi
 fi
 sleep 1.5
 done
-}
+
 
 # Limpeza dos logs e da pasta temporária.
 function limpeza_final() {
