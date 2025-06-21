@@ -156,7 +156,7 @@ case "$1" in
 (1) atualizar_sistema_e_remover_pacotes ;;
 (2) instalar_pacotes_do_utilizador ;;
 (3) instalar_flatpaks ;;
-(4) instalar_ficheiros_adicionais ;;
+(4) ficheiros_extra ;;
 (5) localizacao_fix ;;
 (6) montar_hdd ;;
 (7) configurar_ligacao_bluetooth ;;
@@ -177,7 +177,7 @@ verificar_dependencias
 verificar_ligacao
 iniciar_logs
 transferir_auxiliares
-transferencia_ficheiros_extra
+ficheiros_extra
 
 # importar e verificar os ficheiros descarregados
 
