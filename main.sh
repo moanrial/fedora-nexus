@@ -102,7 +102,7 @@ log_section "A instalar ficheiros adicionais externos (droidCam, autenticação-
 
 #instalar droidcam
 sudo dnf install -y ./tmp/droidCam.client.setup.rpm
-sudo dnf install -y "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -e %fedora).noarch.rpm"
+sudo dnf install -y "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 sudo dnf install -y kernel-headers v4l2loopback
 #instalar autenticação-gov & plugin-autenticação.gov
 sudo flatpak install -y --noninteractive ./tmp/pteid-mw-pcsclite-2.3.flatpak 2>/dev/null || true
