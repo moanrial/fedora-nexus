@@ -80,7 +80,7 @@ sucesso "Conectividade está OK."
 # descarregar ficheiros auxiliares
 function transferir_auxiliares() {
 auxiliares=("main.sh" "localizacao.sh" "montar_hdd.sh" "bluetooth.sh" "ficheiros_extra.sh")
-base_url="https://raw.githubusercontent.com/moanrial/fedora-nexus/main"
+base_url="https://raw.githubusercontent.com/moanrial/fedora-nexus/main/scripts/"
 
 for ficheiro in "${auxiliares[@]}"; do
 destino="${script_dir}/${ficheiro}"
