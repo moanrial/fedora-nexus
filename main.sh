@@ -51,8 +51,8 @@ seahorse.x86_64
 gnome-tweaks.noarch
 mangohud.x86_64
 libreoffice.x86_64
-libreoffice-help-pt-pt.x86_64
-libreoffice-langpack-pt-pt.x86_64
+libreoffice-help-pt-PT.x86_64
+libreoffice-langpack-pt-PT.x86_64
 fastfetch.x86_64
 flatpak.x86_64
 )
