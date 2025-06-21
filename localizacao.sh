@@ -1,4 +1,4 @@
-# Para corrigir e adicionar localização
+# Para corrigir e adicionar localização ao gnome-weather
 
 function localizacao_fix() {
 clear
