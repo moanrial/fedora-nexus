@@ -85,8 +85,8 @@ base_url="https://raw.githubusercontent.com/moanrial/fedora-nexus/main/scripts"
 for ficheiro in "${auxiliares[@]}"; do
 destino="${script_dir}/${ficheiro}"
 if [[ ! -f "$destino" ]]; then
-loading "→ A transferir ${ficheiro} para ${script_dir}."
-curl -fssl "${base_url}/${ficheiro}" -o "$destino"
+loading "→ A transferir ${ficheiro} para ${script_dir}"
+curl -fSsl "${base_url}/${ficheiro}" -o "$destino"
 if [[ $? -ne 0 ]]; then
 erro "Erro ao transferir ${ficheiro}."
 sleep 2
@@ -95,6 +95,7 @@ fi
 fi
 sleep 1.5
 done
+}
 
 
 # Limpeza dos logs e da pasta temporária.
