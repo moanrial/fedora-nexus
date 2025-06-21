@@ -73,7 +73,7 @@ function instalar_flatpaks() {
 clear
 log_section "A instalar flatpaks principais do utilizador"
 flatpaks=(
-com.discordapp.discord
+com.discordapp.Discord
 com.dropbox.client
 com.github.ismaelmartinez.teams_for_linux
 com.github.matoking.protontricks
