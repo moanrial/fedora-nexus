@@ -50,7 +50,7 @@ function iniciar_logs() {
 local text="$1"
 info "${text}"
 exec > >(tee -a "$log") 2>&1
-mkdir -p "$script_dir" "$tmp_dir"
+mkdir -p "$script_dir"
 }
 
 # Dependências satisfeitas?
