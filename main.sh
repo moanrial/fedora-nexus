@@ -74,14 +74,14 @@ clear
 log_section "A instalar flatpaks principais do utilizador"
 flatpaks=(
 com.discordapp.Discord
-com.dropbox.client
-com.github.ismaelmartinez.teams_for_linux
-com.github.matoking.protontricks
-io.github.foldex.adwsteamgtk
+com.dropbox.Client
+com.github.IsmaelMartinez.teams_for_linux
+com.github.Matoking.protontricks
+io.github.Foldex.AdwSteamGtk
 io.github.limo_app.limo
 io.github.loot.loot
-org.ferdium.ferdium
-com.github.tchx84.flatseal
+org.ferdium.Ferdium
+com.github.tchx84.Flatseal
 )
 for app in "${flatpaks[@]}"; do
 if ! flatpak list | grep -q "$app"; then
