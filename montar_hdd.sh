@@ -16,7 +16,7 @@ fi
 # Verifica se já está montado!
 if ! mountpoint -q "$mount_point"; then
 info "A montar o disco de restauro."
-sudo mount -u "$uuid" "$mount_point"
+sudo mount -U "$uuid" "$mount_point"
 sucesso "Disco montado com sucesso em $mount_point"
 sucesso "Finalizado."
 sleep 1.5
