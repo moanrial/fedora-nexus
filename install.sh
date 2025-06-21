@@ -1,29 +1,6 @@
 #!/bin/bash
-# linguagem pt-pt
 export LANG=pt_PT.UTF-8
-# debug
 set -e
-#set -xe
-
-# Cores para mensagens
-vermelho="\033[1;31m"
-verde="\033[1;32m"
-azul="\033[1;34m"
-reset="\033[0m"
-
-loading() {
-echo -n "$1"
-for i in {1..3}; do
-echo -n "."
-sleep 0.5
-done
-echo
-}
-
-# Funções de output
-info() { echo -e "${azul}[INFO]${reset} $1"; }
-sucesso() { echo -e "${verde}[SUCESSO]${reset} $1"; }
-erro() { echo -e "${vermelho}[ERRO]${reset} $1"; }
 
 # Variáveis globais
 log="./instalador.log"
@@ -31,12 +8,13 @@ tmp_dir="./tmp"
 script_dir="./scripts"
 apagar_log_automaticamente=false
 
-### --- funções --- ###
+# Funções 
 function log_section() {
 local text="$1"
 info "${text}"
 }
 
+# Sudo continuo
 function manter_sudo_ativo() {
 sudo -v
 while true; do sleep 60; sudo -v; done &
@@ -45,15 +23,14 @@ trap '[ -n "$sudo_keep_alive_pid" ] && kill "$sudo_keep_alive_pid"' exit
 clear
 }
 
-### --- Gerador de Log --- ###
+# Gerador de Logs
 function iniciar_logs() {
 local text="$1"
 info "${text}"
 exec > >(tee -a "$log") 2>&1
-mkdir -p "$script_dir"
 }
 
-# Dependências satisfeitas?
+# Dependências satisfeitas
 function verificar_dependencias() {
 dependencias=("ping" "sudo" "curl" "tee")
 for cmd in "${dependencias[@]}"; do
@@ -79,7 +56,8 @@ sucesso "Conectividade está OK."
 
 # descarregar ficheiros auxiliares
 function transferir_auxiliares() {
-auxiliares=("main.sh" "localizacao.sh" "montar_hdd.sh" "bluetooth.sh" "ficheiros_extra.sh")
+mkdir -p "$script_dir"
+auxiliares=("main.sh" "localizacao.sh" "montar_hdd.sh" "bluetooth.sh" "limpeza.sh" "utils.sh")
 base_url="https://raw.githubusercontent.com/moanrial/fedora-nexus/main/scripts"
 
 for ficheiro in "${auxiliares[@]}"; do
@@ -97,34 +75,41 @@ sleep 1.5
 done
 }
 
+# Transferência de ficheiros extra.
+function ficheiros_extra() {
+# Transferência do droidCam & autenticacao-gov
+info "A transferir ficheiros extra."
 
-# Limpeza dos logs e da pasta temporária.
-function limpeza_final() {
-clear
-log_section "A limpar os ficheiros não necessários da instalação."
-if sudo dnf autoremove -y && sudo dnf clean all; then
-if [ "$apagar_log_automaticamente" = true ]; then
-rm -f "$log"
-else
-read -p "Deseja apagar o log de instalação? [s/N] " resposta
-[[ "$resposta" =~ ^[sS]$ ]] && rm -f "$log"
-fi
-fi
-# Verifica se existe a pasta ./tmp e remove
-if [ -d "$tmp_dir" ]; then
-info "A remover pasta temporária"
+ficheiros=(
+"https://droidcam.app/go/droidCam.client.setup.rpm"
+"https://aplicacoes.autenticacao.gov.pt/apps/pteid-mw-pcsclite-2.3.flatpak"
+"https://aplicacoes.autenticacao.gov.pt/plugin/plugin-autenticacao-gov_fedora.rpm"
+"https://gist.github.com/dotbanana/1dc4d95d644ce72ab8741d6886b86acc/raw/9e12907ef036193fef4176c4ea0f396fa3f57321/add-location-to-gnome-weather.sh"
+)
+
+for url in "${ficheiros[@]}"; do
+destino="$tmp_dir/$(basename "$url")"
+loading "→ A transferir $(basename "$url")"
+
+if ! wget -q -O "$destino" "$url"; then
+erro "Erro ao transferir $url"
+sleep 2
 rm -r "$tmp_dir"
+exit 1
 fi
-sucesso "Finalizado."
+
+sleep 0.5
+done
+
+sucesso "Ficheiros extra transferidos com sucesso."
 sleep 1.5
-clear
 }
 
 function executar_tudo() {
 # executa todas as funções automaticamente.
 atualizar_sistema_e_remover_pacotes
 instalar_pacotes_do_utilizador
-instalar_flatpaks	
+instalar_flatpaks
 instalar_ficheiros_adicionais
 localizacao_fix
 montar_hdd
@@ -157,7 +142,7 @@ case "$1" in
 (1) atualizar_sistema_e_remover_pacotes ;;
 (2) instalar_pacotes_do_utilizador ;;
 (3) instalar_flatpaks ;;
-(4) ficheiros_extra ;;
+(4) instalar_ficheiros_adicionais ;;
 (5) localizacao_fix ;;
 (6) montar_hdd ;;
 (7) configurar_ligacao_bluetooth ;;
@@ -182,7 +167,7 @@ ficheiros_extra
 
 # importar e verificar os ficheiros descarregados
 
-for file in main.sh localizacao.sh montar_hdd.sh bluetooth.sh ficheiros_extra.sh; do
+for file in main.sh localizacao.sh montar_hdd.sh bluetooth.sh ficheiros_extra.sh limpeza.sh utils.sh; do
 path="${script_dir}/${file}"
 if [[ -f "$path" ]]; then
 source "$path"
