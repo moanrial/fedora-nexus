@@ -178,7 +178,7 @@ verificar_dependencias
 verificar_ligacao
 iniciar_logs
 transferir_auxiliares
-#ficheiros_extra
+ficheiros_extra
 
 # importar e verificar os ficheiros descarregados
 
