@@ -1,6 +1,6 @@
 # instalar_pacotes.sh - Instalação de pacotes principais do utilizador
 
-function instalar_pacotes_do_utilizador() {
+function instalar_pacotes() {
 log_section "A instalar pacotes principais do utilizador"
 
 if ! confirmar; then
