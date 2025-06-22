@@ -9,12 +9,13 @@ return
 fi
 
 tmp_dir="./.tmp"
+log_dir="./logs"
 
 if [[ "${apagar_log_automaticamente:-false}" == true ]]; then
-rm -f "$LOG_FILE"
+rm -rf "$log_dir"
 else
 read -p "Deseja apagar o log de instalação? [s/N] " resposta
-[[ "$resposta" =~ ^[sS]$ ]] && rm -f "$LOG_FILE"
+[[ "$resposta" =~ ^[sS]$ ]] && rm -rf "$log_dir"
 fi
 
 # Verifica se existe a pasta ./.tmp e remove

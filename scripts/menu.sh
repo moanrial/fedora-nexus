@@ -28,7 +28,7 @@ case "$1" in
 (6) montar_hdd ;;
 (7) configurar_bluetooth ;;
 (8) limpeza_final ;;
-(0) echo "A sair..."; apagar_log_automaticamente=true; limpeza_final; exit 0 ;;
+(0) echo "A sair..."; sleep 1.5; clear; exit 0 ;;
 (*) erro "Opção inválida!" 
 ;;
 esac

@@ -1,5 +1,8 @@
 #!/bin/bash
-# install.sh - Script principal
+
+# install.sh - Script de automatização pós-formatação para Fedora
+# Este script instala pacotes, flatpaks, configura localização, monta discos, etc.
+
 echo -e "\n Iniciando instalação...\n"
 
 # Diretório base dos scripts
