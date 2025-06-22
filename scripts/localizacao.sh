@@ -1,6 +1,9 @@
 #!/bin/bash
 # Corrigir e adicionar localização ao Gnome-Weather
 
+flatpak=0
+system=0
+
 localizacao_fix() {
 log_section "Adicionar localização ao Gnome-Weather."
 
