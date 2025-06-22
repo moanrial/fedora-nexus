@@ -19,16 +19,19 @@ DEVICE_NAME="MSX BT"
 
 # Inicia o scan num processo persistente
 echo "A iniciar scan Bluetooth por '$DEVICE_NAME'..."
-bluetoothctl scan on &
-scan_pid=$!
+{
+  echo "power on"
+  echo "scan on"
+  sleep 20
+  echo "scan off"
+} | bluetoothctl &
 
 # Espera até encontrar o dispositivo (até 15s)
 for i in {1..15}; do
 bt_mac=$(bluetoothctl devices | grep "$DEVICE_NAME" | awk '{print $2}')
 if [[ -n "$bt_mac" ]]; then
 echo "Dispositivo encontrado: $bt_mac"
-bluetoothctl scan off
-kill "$scan_pid" 2>/dev/null
+echo "scan off" | bluetoothctl
 break
 fi
 sleep 1
