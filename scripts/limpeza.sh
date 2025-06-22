@@ -8,8 +8,8 @@ info "Limpeza cancelada pelo utilizador."
 return
 fi
 
-tmp_dir="./.tmp"
-log_dir="./logs"
+TMP_DIR="/tmp/fedora-nexus/fedora-nexus-main"
+LOG_DIR="/tmp/fedora-nexus/fedora-nexus-main/logs"
 
 if [[ "${apagar_log_automaticamente:-false}" == true ]]; then
 rm -rf "$log_dir"
@@ -19,9 +19,9 @@ read -p "Deseja apagar o log de instalação? [s/N] " resposta
 fi
 
 # Verifica se existe a pasta ./.tmp e remove
-if [ -d "$tmp_dir" ]; then
+if [ -d "$TMP_DIR" ]; then
 info "A remover pasta temporária."
-rm -r "$tmp_dir"
+rm -r "$TMP_DIR"
 fi
 
 sucesso "Finalizado."
