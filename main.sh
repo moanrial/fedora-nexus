@@ -22,6 +22,7 @@ fi
 done
 
 # Carrega funções essenciais e scripts auxiliares
+source "./install.sh"
 source "./core.sh"
 source "./utils.sh"
 
