@@ -85,5 +85,6 @@ flatpak run --command=gsettings org.gnome.Weather set org.gnome.Weather location
 fi
 
 echo "Localização adicionada com sucesso!"
+sleep 2
 
 }
