@@ -23,7 +23,7 @@ configurar_bluetooth() {
     echo "agent on"
     echo "default-agent"
     echo "scan on"
-    sleep 20  # scan ativo durante 20s no máximo
+    sleep 20
   } | bluetoothctl > /dev/null &
   scan_pid=$!
 
