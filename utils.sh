@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Confirmar
+confirmar() {
+echo -ne "Deseja continuar? (s/N): "
+read -r resposta
+[[ "${resposta,,}" =~ ^(s|sim|y|yes)$ ]]
+}
+
+
 # Cores
 vermelho="\033[1;31m"
 verde="\033[1;32m"

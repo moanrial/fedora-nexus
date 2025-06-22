@@ -2,9 +2,10 @@
 
 ### === menu interativo === ###
 mostrar_menu() {
+clear
 echo "========= MENU DE INSTALAÇÃO PARA FEDORA-NEXUS ==========="
 echo ""
-echo " (1) Atualizar/remover pacotes"
+echo " (1) Atualizar e remover pacotes"
 echo " (2) Instalar pacotes do utilizador"
 echo " (3) Instalar flatpaks do utilizador"
 echo " (4) Instalar ficheiros adicionais"

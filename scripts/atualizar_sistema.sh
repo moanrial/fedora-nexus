@@ -1,7 +1,7 @@
 # atualizar_sistema.sh - Atualização do sistema e limpeza de pacotes antigos
 
 atualizar_sistema() {
-log_section "Atualização e manutenção do sistema"
+log_section "Atualização e manutenção do sistema."
 
 if ! confirmar; then
 info "Atualização cancelada pelo utilizador."
