@@ -14,7 +14,7 @@ erro "Bluetoothctl não encontrado. A instalar bluez..."
 sudo dnf install -y bluez blueman
 fi
 
-device_mac="2A:53:8E:5B:54:A6"  # <<--- INSERIR AQUI O MAC FIXO
+device_mac="2A:53:8E:5B:54:A6"  # <<--- INSERIR AQUI O MAC
 
 bt_script="$HOME/.sh/conectar-colunas.sh"
 mkdir -p "$HOME/.sh"
