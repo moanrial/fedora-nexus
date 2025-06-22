@@ -23,7 +23,7 @@ echo "A iniciar scan Bluetooth por '$DEVICE_NAME'..."
 bluetoothctl scan on &
 
 # Espera um pouco para dar tempo ao scan
-sleep 5
+sleep 10
 
 # Procura o MAC address pelo nome
 bt_mac=$(bluetoothctl devices | grep "$DEVICE_NAME" | awk '{print $2}')
