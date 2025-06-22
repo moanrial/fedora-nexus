@@ -1,12 +1,18 @@
 #!/bin/bash
 
+# main.sh
+
+if [ "$INSTALLED_BY_INSTALL_SH" != "true" ]; then
+    echo "Erro: Este script deve ser executado através do install.sh."
+    exit 1
+fi
+
 # install.sh - Script de automatização pós-formatação para Fedora
 # Este script instala pacotes, flatpaks, configura localização, monta discos, etc.
 
 echo -e "\n Iniciando instalação...\n"
 
 # Carrega funções essenciais e scripts auxiliares
-source "./install.sh"
 source "./core.sh"
 source "./utils.sh"
 
