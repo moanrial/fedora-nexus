@@ -6,6 +6,10 @@ export AUTO_MODE
 # Diretórios
 script_dir="./scripts/"
 LOG_FILE="./logs/instalacao_$(date +%Y%m%d_%H%M%S).log"
+TMP_DIR="/tmp/fedora-nexus"
+
+# UUID do disco de restauro (pode ser obtido com: blkid)
+RESTORE_UUID="f794f76e-7a15-4d7e-8262-94cdecbf50d6"
 
 # Importar utilitários
 source "./utils.sh"
