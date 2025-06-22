@@ -8,8 +8,10 @@ info "Cancelado pelo utilizador."
 return
 fi
 
-chmod +x /tmp/fedora-nexus/fedora-nexus-main/add-location-to-gnome-weather.sh
-/tmp/fedora-nexus/fedora-nexus-main/add-location-to-gnome-weather.sh
+TMP_DIR=/tmp/fedora-nexus/fedora-nexus-main
+
+chmod +x $TMP_DIR/add-location-to-gnome-weather.sh
+$TMP_DIR/add-location-to-gnome-weather.sh
 
 sucesso "Localização adicionada com sucesso."
 
