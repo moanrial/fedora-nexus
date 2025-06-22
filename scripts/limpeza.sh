@@ -1,7 +1,7 @@
 # Limpeza dos logs e da pasta temporária.
 
 limpeza_final() {
-log_section "A limpar os ficheiros não necessários da instalação."
+log_section "Limpar os ficheiros não necessários da instalação."
 
 if ! confirmar; then
 info "Limpeza cancelada pelo utilizador."

@@ -7,7 +7,6 @@ read -r resposta
 [[ "${resposta,,}" =~ ^(s|sim|y|yes)$ ]]
 }
 
-
 # Cores
 vermelho="\033[1;31m"
 verde="\033[1;32m"

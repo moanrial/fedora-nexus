@@ -3,7 +3,7 @@
 
 # Diretórios
 script_dir="./scripts/"
-log="./instalacao_$(date +%Y%m%d_%H%M%S).log"
+LOG_FILE="./logs/instalacao_$(date +%Y%m%d_%H%M%S).log"
 
 # Importar utilitários
 source "./utils.sh"
@@ -40,10 +40,32 @@ fi
 done
 }
 
-# Iniciar logging
-iniciar_logs() {
-log_section "$1" | tee -a "$log"
+# Função genérica de log
+log() {
+echo -e "$1" | tee -a "$LOG_FILE"
 }
+
+info() {
+log "\033[1;34m[INFO]\033[0m $1"
+}
+
+erro() {
+log "\033[1;31m[ERRO]\033[0m $1"
+}
+
+sucesso() {
+log "\033[1;32m[SUCESSO]\033[0m $1"
+}
+
+log_section() {
+log "\n\033[1;33m[SEÇÃO]\033[0m ======= $1 ======="
+}
+
+iniciar_logs() {
+mkdir -p logs
+log "\n========== INÍCIO DA INSTALAÇÃO: $1 ==========\n"
+}
+
 
 # Transferir scripts auxiliares
 transferir_auxiliares() {
@@ -96,3 +118,9 @@ ficheiros_extra() {
 info "A verificar ficheiros extra..."
 # Implementar se necessário
 }
+
+iniciar_logs "Instalação"
+info "Isto é um teste"
+erro "Algo correu mal"
+sucesso "Tudo OK"
+log_section "Instalação de pacotes"
