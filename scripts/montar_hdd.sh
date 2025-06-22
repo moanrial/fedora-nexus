@@ -9,7 +9,7 @@ return
 fi
 
 mount_point="/mnt/Restauro"
-uuid="f794f76e-0e02-4c91-89ce-61feaccb35c7"
+uuid="$RESTORE_UUID"
 
 # Cria o ponto de montagem, se não existir!
 if [ ! -d "$mount_point" ]; then
