@@ -19,9 +19,10 @@ DEVICE_NAME="MSX BT"
 
 # Liga o adaptador e inicia o scan
 echo "A iniciar scan Bluetooth por '$DEVICE_NAME'..."
+{
 bluetoothctl power on
 bluetoothctl scan on
-
+}
 # Espera até encontrar o dispositivo (até 15s)
 for i in {1..15}; do
 bt_mac=$(bluetoothctl devices | grep "$DEVICE_NAME" | awk '{print $2}')
