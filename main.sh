@@ -5,22 +5,6 @@
 
 echo -e "\n Iniciando instalação...\n"
 
-# Diretório base dos scripts
-repo_base="https://raw.githubusercontent.com/moanrial/fedora-nexus/main"
-
-# Ficheiros base obrigatórios
-ficheiros_base=(core.sh utils.sh)
-
-for f in "${ficheiros_base[@]}"; do
-if [[ ! -f "$f" ]]; then
-echo "A transferir $f..."
-curl -fsSL "$repo_base/$f" -o "$f" || {
-echo "Erro ao transferir $f"
-exit 1
-}
-fi
-done
-
 # Carrega funções essenciais e scripts auxiliares
 source "./install.sh"
 source "./core.sh"
