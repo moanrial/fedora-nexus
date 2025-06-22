@@ -1,7 +1,7 @@
 # instalar_flatpaks.sh - Instalação de aplicações via Flatpak
 
 function instalar_flatpaks() {
-log_section "Instalação de aplicações via Flatpak"
+log_section "Instalação de aplicações Flatpak"
 
 if ! confirmar; then
 info "Instalação cancelada pelo utilizador."
@@ -15,13 +15,15 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 fi
 
 flatpaks=(
-com.obsproject.Studio
-md.obsidian.Obsidian
-io.github.flattool.Warehouse
-org.gnome.Boxes
+com.discordapp.Discord
+com.dropbox.Client
+com.github.IsmaelMartinez.teams_for_linux
+com.github.Matoking.protontricks
+io.github.Foldex.AdwSteamGtk
+io.github.limo_app.limo
+io.github.loot.loot
+org.ferdium.Ferdium
 com.github.tchx84.Flatseal
-org.videolan.VLC
-org.gimp.GIMP
 )
 
 for app in "${flatpaks[@]}"; do
