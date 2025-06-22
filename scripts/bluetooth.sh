@@ -17,31 +17,25 @@ fi
 # =====================
 DEVICE_NAME="MSX BT"
 
+# Inicia o scan
 echo "A iniciar scan Bluetooth por '$DEVICE_NAME'..."
+echo -e 'scan on\n' | bluetoothctl &
 
-# Inicia o scan em segundo plano
-bluetoothctl scan on &
+# Tenta encontrar o dispositivo durante até 15 segundos
+for i in {1..15}; do
+    bt_mac=$(bluetoothctl devices | grep "$DEVICE_NAME" | awk '{print $2}')
+    if [[ -n "$bt_mac" ]]; then
+        echo "Dispositivo encontrado: $bt_mac"
+        echo -e 'scan off\n' | bluetoothctl
+        break
+    fi
+    sleep 1
+done
 
-# Espera um pouco para dar tempo ao scan
-sleep 10
-
-# Procura o MAC address pelo nome
-bt_mac=$(bluetoothctl devices | grep "$DEVICE_NAME" | awk '{print $2}')
-
-# Interrompe o scan
-bluetoothctl scan off
-
+# Verifica se encontrou
 if [ -z "$bt_mac" ]; then
-    echo "Dispositivo '$DEVICE_NAME' não encontrado."
+    erro "Dispositivo '$DEVICE_NAME' não encontrado."
     return 1
-fi
-
-echo "Dispositivo encontrado: $bt_mac"
-
-# Validação de formato MAC
-if [[ ! "$bt_mac" =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
-erro "Formato de MAC inválido. Deve ser XX:XX:XX:XX:XX:XX"
-return 1
 fi
 
 # Caminho para o script de conexão
