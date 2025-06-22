@@ -3,7 +3,7 @@
 
 # Diretórios
 script_dir="./scripts/"
-tmp_dir="/tmp/fedora-installer"
+tmp_dir="./tmp"
 log="./instalacao_$(date +%Y%m%d_%H%M%S).log"
 
 # Importar utilitários

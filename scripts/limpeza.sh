@@ -1,7 +1,6 @@
 # Limpeza dos logs e da pasta temporária.
 
-function limpeza_final() {
-clear
+limpeza_final() {
 log_section "A limpar os ficheiros não necessários da instalação."
 if sudo dnf autoremove -y && sudo dnf clean all; then
 if [ "$apagar_log_automaticamente" = true ]; then
@@ -18,5 +17,4 @@ rm -r "$tmp_dir"
 fi
 sucesso "Finalizado."
 sleep 1.5
-clear
 }

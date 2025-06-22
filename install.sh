@@ -22,7 +22,8 @@ if [[ "${1:-}" == "--silent" || "${1:-}" == "--auto" ]]; then
 atualizar_sistema
 instalar_pacotes
 instalar_flatpaks
-instalar_ficheiros_adicionais
+ficheiros_adicionais
+limpeza_final
 info "Instalação completa."
 else
 # Menu interativo

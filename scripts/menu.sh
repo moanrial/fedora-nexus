@@ -13,7 +13,6 @@ echo " (5) Gnome-Weather-Fix"
 echo " (6) Montar disco de restauro"
 echo " (7) Configurar bluetooth"
 echo " (8) Limpeza de pastas e logs"
-echo " (9) Executar tudo"
 echo " (0) Sair"
 echo ""
 echo "=========================================================="
@@ -29,7 +28,6 @@ case "$1" in
 (6) montar_hdd ;;
 (7) configurar_bluetooth ;;
 (8) limpeza_final ;;
-(9) executar_tudo ;;
 (0) echo "A sair..."; apagar_log_automaticamente=true; limpeza_final; exit 0 ;;
 (*) erro "Opção inválida!" 
 ;;

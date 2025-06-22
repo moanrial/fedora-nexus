@@ -1,6 +1,6 @@
 # instalar_flatpaks.sh - Instalação de aplicações via Flatpak
 
-function instalar_flatpaks() {
+instalar_flatpaks() {
 log_section "Instalação de aplicações Flatpak"
 
 if ! confirmar; then

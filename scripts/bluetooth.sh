@@ -1,7 +1,6 @@
 # Conectividade Bluetooth
 
-function configurar_bluetooth() {
-clear
+configurar_bluetooth() {
 log_section "A configurar o bluetooth para arrancar automaticamente."
 
 # Verifica se bluetoothctl está disponível, senão instala bluez e blueman
