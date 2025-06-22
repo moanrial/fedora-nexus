@@ -2,9 +2,13 @@
 
 # Confirmar
 confirmar() {
-echo -ne "Deseja continuar? (s/N): "
-read -r resposta
-[[ "${resposta,,}" =~ ^(s|sim|y|yes)$ ]]
+local mensagem="${1:-Confirmar?}"
+if [[ "$AUTO_MODE" == true ]]; then
+info "$mensagem (AUTO: sim automático)"
+return 0
+fi
+read -p "$mensagem (s/n): " resposta
+[[ "$resposta" == "s" ]]
 }
 
 # Cores

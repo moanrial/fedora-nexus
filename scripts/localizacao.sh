@@ -8,8 +8,8 @@ info "Cancelado pelo utilizador."
 return
 fi
 
-chmod +x ./tmp/add-location-to-gnome-weather.sh
-./tmp/add-location-to-gnome-weather.sh
+chmod +x ./.tmp/add-location-to-gnome-weather.sh
+./.tmp/add-location-to-gnome-weather.sh
 
 sucesso "Localização adicionada com sucesso."
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 # core.sh - lógica central
+AUTO_MODE=false
+export AUTO_MODE
 
 # Diretórios
 script_dir="./scripts/"
@@ -12,6 +14,7 @@ source "./utils.sh"
 export LANG=pt_PT.UTF-8
 export LC_ALL=pt_PT.UTF-8
 set -euo pipefail
+apagar_log_automaticamente=false
 
 # Manter sudo ativo
 manter_sudo_ativo() {
@@ -118,9 +121,3 @@ ficheiros_extra() {
 info "A verificar ficheiros extra..."
 # Implementar se necessário
 }
-
-iniciar_logs "Instalação"
-info "Isto é um teste"
-erro "Algo correu mal"
-sucesso "Tudo OK"
-log_section "Instalação de pacotes"

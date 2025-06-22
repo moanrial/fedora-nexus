@@ -35,6 +35,10 @@ done
 
 # Execução automática com flag --silent ou --auto
 if [[ "${1:-}" == "--silent" || "${1:-}" == "--auto" ]]; then
+export AUTO_MODE=true
+export apagar_log_automaticamente=true
+iniciar_logs "Modo automático"
+
 atualizar_sistema
 instalar_pacotes
 instalar_flatpaks
@@ -43,8 +47,13 @@ localizacao_fix
 montar_hdd
 configurar_bluetooth
 limpeza_final
+
 info "Instalação completa."
 else
+export AUTO_MODE=false
+export apagar_log_automaticamente=false
+iniciar_logs "Modo interativo"
+
 # Menu interativo
 executar_menu
 fi

@@ -62,7 +62,4 @@ sudo dnf install -y "$tmp_dir/plugin-autenticacao-gov_fedora.rpm"
 sucesso "Ficheiros adicionais instalados com sucesso."
 sleep 1.5
 
-rm -r $tmp_dir
-
 }
-
