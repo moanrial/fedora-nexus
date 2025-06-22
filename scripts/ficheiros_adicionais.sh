@@ -8,9 +8,6 @@ info "Instalação cancelada pelo utilizador."
 return
 fi
 
-tmp_dir="./.tmp"
-mkdir -p "$tmp_dir"
-
 # Transferência de ficheiros extra
 info "A transferir ficheiros extra."
 
@@ -34,7 +31,6 @@ loading "→ A transferir $(basename "$url")"
 if ! wget -q -O "$destino" "$url"; then
 erro "Erro ao transferir $url"
 sleep 2
-rm -rf "$tmp_dir"
 exit 1
 fi
 
