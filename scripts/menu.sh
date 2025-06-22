@@ -20,13 +20,13 @@ echo "=========================================================="
 
 executar_opcao() {
 case "$1" in
-(1) atualizar_sistema_e_remover_pacotes ;;
-(2) instalar_pacotes_do_utilizador ;;
+(1) atualizar_sistema ;;
+(2) instalar_pacotes ;;
 (3) instalar_flatpaks ;;
-(4) instalar_ficheiros_adicionais ;;
+(4) ficheiros_adicionais ;;
 (5) localizacao_fix ;;
 (6) montar_hdd ;;
-(7) configurar_ligacao_bluetooth ;;
+(7) configurar_bluetooth ;;
 (8) limpeza_final ;;
 (9) executar_tudo ;;
 (0) echo "A sair..."; apagar_log_automaticamente=true; limpeza_final; exit 0 ;;
@@ -41,3 +41,4 @@ mostrar_menu
 read -rp "ESCOLHE UMA OPÇÃO: " opcao
 executar_opcao "$opcao"
 done
+}

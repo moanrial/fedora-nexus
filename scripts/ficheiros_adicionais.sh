@@ -1,6 +1,6 @@
 # ficheiros_adicionais.sh - Instalação de ficheiros externos adicionais (temas, fontes, etc.)
 
-function instalar_ficheiros_adicionais() {
+function ficheiros_adicionais() {
 log_section "Instalação de ficheiros externos adicionais"
 
 if ! confirmar; then

@@ -1,6 +1,6 @@
 # Conectividade Bluetooth
 
-function configurar_ligacao_bluetooth() {
+function configurar_bluetooth() {
 clear
 log_section "A configurar o bluetooth para arrancar automaticamente."
 

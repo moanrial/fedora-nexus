@@ -49,19 +49,38 @@ log_section "$1" | tee -a "$log"
 
 # Transferir scripts auxiliares
 transferir_auxiliares() {
-base_url="https://raw.githubusercontent.com/moanrial/fedora-nexus/main/scripts"  # substituir pelo teu URL real
-ficheiros=(atualizar_sistema.sh bluetooth.sh ficheiros_adicionais.sh instalar_flatpaks.sh instalar_pacotes.sh limpeza.sh localizacao.sh menu.sh montar_hdd.sh)
+base_url="https://raw.githubusercontent.com/moanrial/fedora-nexus/main/scripts"
+ficheiros=(
+atualizar_sistema.sh
+bluetooth.sh
+ficheiros_adicionais.sh
+instalar_flatpaks.sh
+instalar_pacotes.sh
+limpeza.sh
+localizacao.sh
+menu.sh
+montar_hdd.sh
+)
 
 mkdir -p scripts
 
 for ficheiro in "${ficheiros[@]}"; do
-destino="$script_dir/$ficheiro"
-curl -fSsl "$base_url/$ficheiro" -o "$destino" || {
+destino="scripts/$ficheiro"
+
+if [[ -f "$destino" ]]; then
+echo "$ficheiro já existe. A saltar a transferência."
+else
+echo "A transferir $ficheiro..."
+if curl -fsSL "$base_url/$ficheiro" -o "$destino"; then
+echo "$ficheiro transferido com sucesso."
+else
 erro "Erro ao transferir $ficheiro"
 exit 1
-}
+fi
+fi
 done
 }
+
 
 # Importar todos os scripts auxiliares
 importar_scripts_auxiliares() {
@@ -81,4 +100,3 @@ ficheiros_extra() {
 info "A verificar ficheiros extra..."
 # Implementar se necessário
 }
-
