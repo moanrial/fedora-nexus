@@ -8,7 +8,6 @@ configurar_bluetooth() {
     return
   fi
 
-  # Verifica se bluetoothctl está disponível, senão instala bluez e blueman
   if ! command -v bluetoothctl &>/dev/null; then
     erro "Bluetoothctl não encontrado. A instalar bluez..."
     sudo dnf install -y bluez blueman
@@ -17,23 +16,19 @@ configurar_bluetooth() {
   DEVICE_NAME="MSX BT"
   echo "A iniciar scan Bluetooth por '$DEVICE_NAME'..."
 
-  # Inicia scan num processo separado
+  # Começa o processo interativo do bluetoothctl
   {
     echo "power on"
-    echo "agent on"
-    echo "default-agent"
     echo "scan on"
-    sleep 20
-  } | bluetoothctl > /dev/null &
-  scan_pid=$!
+    sleep 1
+  } | bluetoothctl &>/dev/null &
 
-  # Espera até encontrar o dispositivo (máx. 15s)
+  # Espera até encontrar o dispositivo (até 15s)
   for i in {1..15}; do
     bt_mac=$(bluetoothctl devices | grep "$DEVICE_NAME" | awk '{print $2}')
     if [[ -n "$bt_mac" ]]; then
       echo "Dispositivo encontrado: $bt_mac"
       echo "scan off" | bluetoothctl
-      kill "$scan_pid" 2>/dev/null
       break
     fi
     sleep 1
@@ -41,8 +36,6 @@ configurar_bluetooth() {
 
   if [ -z "$bt_mac" ]; then
     erro "Dispositivo '$DEVICE_NAME' não encontrado."
-    echo "scan off" | bluetoothctl
-    kill "$scan_pid" 2>/dev/null
     return 1
   fi
 
@@ -55,11 +48,14 @@ configurar_bluetooth() {
 
   cat > "$bt_script" <<EOF
 #!/bin/bash
+
 device_mac="$bt_mac"
+
 echo "A tentar conectar ao dispositivo bluetooth: \$device_mac"
 bluetoothctl power on
-bluetoothctl connect "\$device_mac"
 bluetoothctl trust "\$device_mac"
+bluetoothctl connect "\$device_mac"
+
 echo "Dispositivo bluetooth conectado."
 EOF
 
@@ -67,8 +63,8 @@ EOF
 
   autostart_dir="$HOME/.config/autostart"
   autostart_file="$autostart_dir/conectar_colunas_bt.desktop"
-  mkdir -p "$autostart_dir"
 
+  mkdir -p "$autostart_dir"
   cat > "$autostart_file" <<EOF
 [Desktop Entry]
 Type=Application
