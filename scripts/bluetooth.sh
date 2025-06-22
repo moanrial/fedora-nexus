@@ -50,3 +50,5 @@ EOF
 
 sucesso "Conexão Bluetooth configurada para arrancar automaticamente."
 }
+
+configurar_bluetooth
