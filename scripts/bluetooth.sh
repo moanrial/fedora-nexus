@@ -1,7 +1,5 @@
 # Conectividade Bluetooth
 
-source "main.sh"
-
 configurar_bluetooth() {
 log_section "A configurar o bluetooth para arrancar automaticamente."
 
