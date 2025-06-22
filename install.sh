@@ -77,7 +77,6 @@ done
 
 # Transferência de ficheiros extra.
 function ficheiros_extra() {
-# Transferência do droidCam & autenticacao-gov
 info "A transferir ficheiros extra."
 
 ficheiros=(
@@ -87,14 +86,22 @@ ficheiros=(
 "https://gist.github.com/dotbanana/1dc4d95d644ce72ab8741d6886b86acc/raw/9e12907ef036193fef4176c4ea0f396fa3f57321/add-location-to-gnome-weather.sh"
 )
 
+mkdir -p "$tmp_dir"
+
 for url in "${ficheiros[@]}"; do
 destino="$tmp_dir/$(basename "$url")"
+
+if [[ -f "$destino" ]]; then
+info "Já existe: $(basename "$url") — a ignorar transferência."
+continue
+fi
+
 loading "→ A transferir $(basename "$url")"
 
 if ! wget -q -O "$destino" "$url"; then
 erro "Erro ao transferir $url"
 sleep 2
-rm -r "$tmp_dir"
+rm -rf "$tmp_dir"
 exit 1
 fi
 
@@ -106,7 +113,9 @@ sleep 1.5
 }
 
 function executar_tudo() {
-# executa todas as funções automaticamente.
+local SILENT_ANTERIOR=$SILENT
+SILENT=true  # desativar confirmações
+
 atualizar_sistema_e_remover_pacotes
 instalar_pacotes_do_utilizador
 instalar_flatpaks
@@ -115,7 +124,8 @@ localizacao_fix
 montar_hdd
 configurar_ligacao_bluetooth
 limpeza_final
-clear
+
+SILENT=$SILENT_ANTERIOR  # restaurar valor anterior (caso corras novamente o menu depois)
 }
 
 ### === menu interativo === ###
@@ -174,7 +184,7 @@ log_section "Credenciais necessárias!"
 manter_sudo_ativo
 verificar_dependencias
 verificar_ligacao
-iniciar_logs
+iniciar_logs "A criar o ficheiro de log."
 ficheiros_extra
 
 # importar e verificar os ficheiros descarregados

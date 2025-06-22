@@ -1,8 +1,31 @@
 # main.sh - funções main
 
+# Carregar utilitários
+source ./scripts/utils.sh
+
+# Modo silencioso?
+if [[ "${1:-}" == "--silent" || "${1:-}" == "--no-confirm" ]]; then
+SILENT=true
+else
+SILENT=false
+fi
+
+# Variavel confirmar
+confirmar() {
+$SILENT && return 0
+read -rp "Continuar? [s/N] " resp
+[[ "$resp" =~ ^[sS]$ ]] && return 0
+return 1
+}
+
 function atualizar_sistema_e_remover_pacotes() {
-clear
 log_section "A atualizar sistema & remover pacotes não essenciais"
+
+if ! confirmar; then
+info "Instalação cancelada pelo utilizador."
+return
+fi
+
 sudo dnf update -y && sudo dnf upgrade -y
 pacotes=(
 gnome-tour.x86_64
@@ -15,12 +38,16 @@ info "$pacote removido!"
 done
 sucesso "Finalizado."
 sleep 1.5
-clear
 }
 
 function instalar_pacotes_do_utilizador() {
-clear
 log_section "A instalar pacotes principais do utilizador"
+
+if ! confirmar; then
+info "Instalação cancelada pelo utilizador."
+return
+fi
+
 pacotes=(
 amd-gpu-firmware.noarch
 wine-common.noarch
@@ -66,12 +93,16 @@ fi
 done
 sucesso "Finalizado."
 sleep 1.5
-clear
 }
 
 function instalar_flatpaks() {
-clear
 log_section "A instalar flatpaks principais do utilizador"
+
+if ! confirmar; then
+info "Instalação cancelada pelo utilizador."
+return
+fi
+
 flatpaks=(
 com.discordapp.Discord
 com.dropbox.Client
@@ -93,12 +124,15 @@ fi
 done
 sucesso "Finalizado."
 sleep 1.5
-clear
 }
 
 function instalar_ficheiros_adicionais() {
-clear
 log_section "A instalar ficheiros adicionais externos (droidCam, autenticação-gov)"
+
+if ! confirmar; then
+info "Instalação cancelada pelo utilizador."
+return
+fi
 
 #instalar droidcam
 sudo dnf install -y ./tmp/droidCam.client.setup.rpm
@@ -109,5 +143,4 @@ sudo flatpak install -y --noninteractive ./tmp/pteid-mw-pcsclite-2.3.flatpak 2>/
 sudo dnf install -y ./tmp/plugin-autenticacao-gov_fedora.rpm
 sucesso "Finalizado."
 sleep 1.5
-clear
 }

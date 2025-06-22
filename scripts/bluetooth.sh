@@ -2,12 +2,33 @@
 
 function configurar_ligacao_bluetooth() {
 clear
-log_section "A configurar o bluetooth para arrancar automaticamente"
-bt_mac="2a:53:8e:5b:54:a6"  # <- msx bt(colunasbluetooth)
+log_section "A configurar o bluetooth para arrancar automaticamente."
+
+# Verifica se bluetoothctl está disponível, senão instala bluez e blueman
+if ! command -v bluetoothctl &>/dev/null; then
+erro "Bluetoothctl não encontrado. A instalar bluez..."
+sudo dnf install -y bluez blueman
+fi
+
+# Pedir o MAC address com validação simples
+read -p "Insere o MAC das colunas bluetooth: " bt_mac # <- MAC das Colunas bluetooth
+
+# Validação de formato MAC
+if [[ ! "$bt_mac" =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
+erro "Formato de MAC inválido. Deve ser XX:XX:XX:XX:XX:XX"
+return 1
+fi
+
+# Caminho para o script de conexão
 bt_script="$HOME/.sh/conectar-colunas.sh"
-# Corrigir expansão correta da pasta
 mkdir -p "$HOME/.sh"
-# Criar o script bluetooth
+
+
+if [[ -f "$bt_script" ]]; then
+info "Script de conexão bluetooth já existe. A substituir..."
+fi
+
+# Gerar o script
 cat > "$bt_script" <<eof
 #!/bin/bash
 
@@ -23,7 +44,7 @@ eof
 
 chmod +x "$bt_script"
 
-# Criar entrada .desktop para autostart
+# Criar entrada no autostart
 autostart_dir="$HOME/.config/autostart"
 autostart_file="$autostart_dir/conectar_colunas_bt.desktop"
 
@@ -38,8 +59,6 @@ x-gnome-autostart-enabled=true
 name=colunasbluetooth
 eof
 
-info "Script bluetooth configurado para iniciar automaticamente na sessão."
-sucesso "Finalizado."
+sucesso "Script de conexão Bluetooth criado e configurado para arrancar automaticamente."
 sleep 1.5
-clear
 }
