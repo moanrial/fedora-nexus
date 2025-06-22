@@ -46,6 +46,7 @@ done
 
 # Função genérica de log
 log() {
+mkdir -p "$(dirname "$LOG_FILE")"
 echo -e "$1" | tee -a "$LOG_FILE"
 }
 
