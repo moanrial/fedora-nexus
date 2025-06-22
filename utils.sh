@@ -7,8 +7,8 @@ if [[ "$AUTO_MODE" == true ]]; then
 info "$mensagem (AUTO: sim automático)"
 return 0
 fi
-read -p "$mensagem (s/n): " resposta
-[[ "$resposta" == "s" ]]
+read -r -p "$mensagem (s/n): " resposta
+[[ "$resposta" =~ ^[sS]$ ]]
 }
 
 # Cores
