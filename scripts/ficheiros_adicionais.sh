@@ -8,7 +8,7 @@ info "Instalação cancelada pelo utilizador."
 return
 fi
 
-tmp_dir="./tmp"
+tmp_dir="./.tmp"
 mkdir -p "$tmp_dir"
 
 # Transferência de ficheiros extra
@@ -61,5 +61,8 @@ sudo dnf install -y "$tmp_dir/plugin-autenticacao-gov_fedora.rpm"
 
 sucesso "Ficheiros adicionais instalados com sucesso."
 sleep 1.5
+
+rm -r $tmp_dir
+
 }
 

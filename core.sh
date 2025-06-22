@@ -3,7 +3,6 @@
 
 # Diretórios
 script_dir="./scripts/"
-tmp_dir="./tmp"
 log="./instalacao_$(date +%Y%m%d_%H%M%S).log"
 
 # Importar utilitários
@@ -43,7 +42,6 @@ done
 
 # Iniciar logging
 iniciar_logs() {
-mkdir -p "$tmp_dir"
 log_section "$1" | tee -a "$log"
 }
 
