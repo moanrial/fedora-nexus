@@ -17,20 +17,23 @@ configurar_bluetooth() {
   DEVICE_NAME="MSX BT"
   echo "A iniciar scan Bluetooth por '$DEVICE_NAME'..."
 
-  # Liga o adaptador e inicia o scan
-  bluetoothctl << EOF
-power on
-agent on
-default-agent
-scan on
-EOF
+  # Inicia scan num processo separado
+  {
+    echo "power on"
+    echo "agent on"
+    echo "default-agent"
+    echo "scan on"
+    sleep 20  # scan ativo durante 20s no máximo
+  } | bluetoothctl > /dev/null &
+  scan_pid=$!
 
   # Espera até encontrar o dispositivo (máx. 15s)
   for i in {1..15}; do
     bt_mac=$(bluetoothctl devices | grep "$DEVICE_NAME" | awk '{print $2}')
     if [[ -n "$bt_mac" ]]; then
       echo "Dispositivo encontrado: $bt_mac"
-      bluetoothctl scan off
+      echo "scan off" | bluetoothctl
+      kill "$scan_pid" 2>/dev/null
       break
     fi
     sleep 1
@@ -38,7 +41,8 @@ EOF
 
   if [ -z "$bt_mac" ]; then
     erro "Dispositivo '$DEVICE_NAME' não encontrado."
-    bluetoothctl scan off
+    echo "scan off" | bluetoothctl
+    kill "$scan_pid" 2>/dev/null
     return 1
   fi
 
@@ -67,7 +71,7 @@ EOF
 
   cat > "$autostart_file" <<EOF
 [Desktop Entry]
-Type=application
+Type=Application
 Exec=$bt_script
 Hidden=false
 NoDisplay=false
