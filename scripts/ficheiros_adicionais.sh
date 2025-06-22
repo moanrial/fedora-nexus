@@ -9,7 +9,7 @@ return
 fi
 
 TMP_DIR="/tmp/fedora-nexus/fedora-nexus-main"
-mkdir=$TMP_DIR
+mkdir -p "$TMP_DIR"
 
 # Transferência de ficheiros extra
 info "A transferir ficheiros extra."
