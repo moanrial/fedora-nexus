@@ -150,13 +150,26 @@ case "$1" in
 (9) executar_tudo ;;
 (0) echo "A sair..."; apagar_log_automaticamente=true; limpeza_final; exit 0 ;;
 (*) erro "Opção inválida!" 
-sleep 1.5
+sleep 1
 clear
 ;;
 esac
 }
 
 ### === execução === ###
+# Garantir que scripts são transferidos antes de usar funções
+transferir_auxiliares
+
+# Importar utils.sh primeiro
+utils="${script_dir}/utils.sh"
+if [[ -f "$utils" ]]; then
+source "$utils"
+else
+echo "[ERRO] utils.sh não encontrado."
+exit 1
+fi
+
+# Agora já podes usar funções como info, log_section, etc.
 log_section "Credenciais necessárias!"
 manter_sudo_ativo
 verificar_dependencias
@@ -167,7 +180,7 @@ ficheiros_extra
 
 # importar e verificar os ficheiros descarregados
 
-for file in main.sh localizacao.sh montar_hdd.sh bluetooth.sh ficheiros_extra.sh limpeza.sh utils.sh; do
+for file in main.sh localizacao.sh montar_hdd.sh bluetooth.sh limpeza.sh; do
 path="${script_dir}/${file}"
 if [[ -f "$path" ]]; then
 source "$path"
