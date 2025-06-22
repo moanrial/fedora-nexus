@@ -34,14 +34,15 @@ EOF
 
 chmod +x "$bt_script"
 
-autostart_dir="\$HOME/.config/autostart"
-autostart_file="\$autostart_dir/conectar_colunas_bt.desktop"
-mkdir -p "\$autostart_dir"
+autostart_dir="$HOME/.config/autostart"
+autostart_file="$autostart_dir/conectar_colunas_bt.desktop"
+mkdir -p "$autostart_dir"
 
-cat > "\$autostart_file" <<EOF
+# Aqui usamos aspas no 'EOF' para evitar expansão precoce do caminho
+cat > "$autostart_file" <<'EOF'
 [Desktop Entry]
 Type=Application
-Exec=$bt_script
+Exec='$HOME/.sh/conectar-colunas.sh'
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
