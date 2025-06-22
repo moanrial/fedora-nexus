@@ -1,9 +1,6 @@
 #!/bin/bash
 # Corrigir e adicionar localização ao Gnome-Weather
 
-flatpak=0
-system=0
-
 localizacao_fix() {
 log_section "Adicionar localização ao Gnome-Weather."
 
@@ -11,6 +8,10 @@ if ! confirmar; then
 info "Cancelado pelo utilizador."
 return
 fi
+
+# Define variáveis com valor padrão
+flatpak=0
+system=0
 
 # Verifica se o GNOME Weather está instalado (sistema)
 if command -v gnome-weather >/dev/null 2>&1; then
