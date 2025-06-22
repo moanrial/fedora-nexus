@@ -8,6 +8,9 @@ info "Instalação cancelada pelo utilizador."
 return
 fi
 
+TMP_DIR="/tmp/fedora-nexus/fedora-nexus-main"
+mkdir=$TMP_DIR
+
 # Transferência de ficheiros extra
 info "A transferir ficheiros extra."
 
@@ -19,7 +22,7 @@ ficheiros=(
 )
 
 for url in "${ficheiros[@]}"; do
-destino="$tmp_dir/$(basename "$url")"
+destino="$TMP_DIR/$(basename "$url")"
 
 if [[ -f "$destino" ]]; then
 info "Já existe: $(basename "$url") — a ignorar transferência."
@@ -41,7 +44,7 @@ sucesso "Ficheiros extra transferidos com sucesso."
 sleep 1.5
 
 # Instalar droidcam
-sudo dnf install -y "$tmp_dir/droidCam.client.setup.rpm"
+sudo dnf install -y "$TMP_DIR/droidCam.client.setup.rpm"
 
 # RPM Fusion (caso não esteja já instalado)
 sudo dnf install -y \
@@ -52,8 +55,8 @@ sudo dnf install -y \
 sudo dnf install -y kernel-headers v4l2loopback
 
 # Autenticação.gov (Flatpak + plugin RPM)
-sudo flatpak install -y --noninteractive "$tmp_dir/pteid-mw-pcsclite-2.3.flatpak" 2>/dev/null || true
-sudo dnf install -y "$tmp_dir/plugin-autenticacao-gov_fedora.rpm"
+sudo flatpak install -y --noninteractive "$TMP_DIR/pteid-mw-pcsclite-2.3.flatpak" 2>/dev/null || true
+sudo dnf install -y "$TMP_DIR/plugin-autenticacao-gov_fedora.rpm"
 
 sucesso "Ficheiros adicionais instalados com sucesso."
 sleep 1.5
