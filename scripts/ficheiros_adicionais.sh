@@ -8,7 +8,6 @@ info "Instalação cancelada pelo utilizador."
 return
 fi
 
-TMP_DIR="/tmp/fedora-nexus/fedora-nexus-main"
 mkdir -p "$TMP_DIR"
 
 # Transferência de ficheiros extra
