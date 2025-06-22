@@ -1,6 +1,6 @@
 #!/bin/bash
 export LANG=pt_PT.UTF-8
-set -e
+set -euo pipefail
 
 # Variáveis globais
 log="./instalador.log"
@@ -175,7 +175,6 @@ manter_sudo_ativo
 verificar_dependencias
 verificar_ligacao
 iniciar_logs
-transferir_auxiliares
 ficheiros_extra
 
 # importar e verificar os ficheiros descarregados
