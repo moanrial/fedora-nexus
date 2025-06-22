@@ -14,8 +14,29 @@ erro "Bluetoothctl não encontrado. A instalar bluez..."
 sudo dnf install -y bluez blueman
 fi
 
-# Pedir o MAC address com validação simples
-read -p "Insere o MAC das colunas bluetooth: " bt_mac # <- MAC das Colunas bluetooth
+# =====================
+DEVICE_NAME="MSX BT"
+
+echo "A iniciar scan Bluetooth por '$DEVICE_NAME'..."
+
+# Inicia o scan em segundo plano
+bluetoothctl scan on &
+
+# Espera um pouco para dar tempo ao scan
+sleep 5
+
+# Procura o MAC address pelo nome
+bt_mac=$(bluetoothctl devices | grep "$DEVICE_NAME" | awk '{print $2}')
+
+# Interrompe o scan
+bluetoothctl scan off
+
+if [ -z "$bt_mac" ]; then
+    echo "Dispositivo '$DEVICE_NAME' não encontrado."
+    return 1
+fi
+
+echo "Dispositivo encontrado: $bt_mac"
 
 # Validação de formato MAC
 if [[ ! "$bt_mac" =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
@@ -33,7 +54,7 @@ info "Script de conexão bluetooth já existe. A substituir..."
 fi
 
 # Gerar o script
-cat > "$bt_script" <<eof
+cat > "$bt_script" <<EOF
 #!/bin/bash
 
 device_mac="$bt_mac"
@@ -44,7 +65,7 @@ bluetoothctl connect "\$device_mac"
 bluetoothctl trust "\$device_mac"
 
 echo "Dispositivo bluetooth conectado."
-eof
+EOF
 
 chmod +x "$bt_script"
 
@@ -53,15 +74,15 @@ autostart_dir="$HOME/.config/autostart"
 autostart_file="$autostart_dir/conectar_colunas_bt.desktop"
 
 mkdir -p "$autostart_dir"
-cat > "$autostart_file" <<eof
-[desktop entry]
-type=application
-exec=$bt_script
-hidden=false
-nodisplay=false
-x-gnome-autostart-enabled=true
-name=colunasbluetooth
-eof
+cat > "$autostart_file" <<EOF
+[Desktop Entry]
+Type=application
+Exec=$bt_script
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=ColunasBluetooth
+EOF
 
 sucesso "Script de conexão Bluetooth criado e configurado para arrancar automaticamente."
 sleep 1.5
