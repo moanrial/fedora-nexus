@@ -1,6 +1,6 @@
 # ficheiros_adicionais.sh - Instalação de ficheiros externos adicionais (temas, fontes, etc.)
 
-function ficheiros_adicionais() {
+ficheiros_adicionais() {
 log_section "A instalar ficheiros adicionais externos (droidCam, autenticação-gov)"
 
 if ! confirmar; then
@@ -43,19 +43,21 @@ done
 
 sucesso "Ficheiros extra transferidos com sucesso."
 sleep 1.5
-}
 
+# Instalar droidcam
+sudo dnf install -y "$tmp_dir/droidCam.client.setup.rpm"
 
-#instalar droidcam
-sudo dnf install -y ./tmp/droidCam.client.setup.rpm
-sudo dnf install -y "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+# RPM Fusion (caso não esteja já instalado)
+sudo dnf install -y \
+"https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+"https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+
+# Kernel headers e v4l2loopback
 sudo dnf install -y kernel-headers v4l2loopback
-#instalar autenticação-gov & plugin-autenticação.gov
-sudo flatpak install -y --noninteractive ./tmp/pteid-mw-pcsclite-2.3.flatpak 2>/dev/null || true
-sudo dnf install -y ./tmp/plugin-autenticacao-gov_fedora.rpm
-sucesso "Finalizado."
-sleep 1.5
-}
+
+# Autenticação.gov (Flatpak + plugin RPM)
+sudo flatpak install -y --noninteractive "$tmp_dir/pteid-mw-pcsclite-2.3.flatpak" 2>/dev/null || true
+sudo dnf install -y "$tmp_dir/plugin-autenticacao-gov_fedora.rpm"
 
 sucesso "Ficheiros adicionais instalados com sucesso."
 sleep 1.5

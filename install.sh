@@ -4,6 +4,7 @@
 
 # Carrega funções essenciais e scripts auxiliares
 source "./core.sh"
+iniciar_logs "Inicio da Instalação"
 transferir_auxiliares
 
 # Importa scripts da pasta scripts/

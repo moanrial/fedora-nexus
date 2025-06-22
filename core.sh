@@ -4,7 +4,7 @@
 # Diretórios
 script_dir="./scripts/"
 tmp_dir="/tmp/fedora-installer"
-log="./instalador_$(date +%Y%m%d_%H%M%S).log"
+log="./instalacao_$(date +%Y%m%d_%H%M%S).log"
 
 # Importar utilitários
 source "./utils.sh"
@@ -80,7 +80,6 @@ fi
 fi
 done
 }
-
 
 # Importar todos os scripts auxiliares
 importar_scripts_auxiliares() {
