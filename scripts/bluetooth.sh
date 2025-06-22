@@ -8,6 +8,7 @@ configurar_bluetooth() {
     return
   fi
 
+  # Verifica se bluetoothctl está disponível, senão instala
   if ! command -v bluetoothctl &>/dev/null; then
     erro "Bluetoothctl não encontrado. A instalar bluez..."
     sudo dnf install -y bluez blueman
@@ -16,19 +17,19 @@ configurar_bluetooth() {
   DEVICE_NAME="MSX BT"
   echo "A iniciar scan Bluetooth por '$DEVICE_NAME'..."
 
-  # Começa o processo interativo do bluetoothctl
+  # Inicia scan com power on + scan on num processo background
   {
     echo "power on"
     echo "scan on"
-    sleep 1
-  } | bluetoothctl &>/dev/null &
+    sleep 15
+    echo "scan off"
+  } | bluetoothctl &
 
-  # Espera até encontrar o dispositivo (até 15s)
+  # Tenta encontrar o dispositivo durante 15 segundos
   for i in {1..15}; do
     bt_mac=$(bluetoothctl devices | grep "$DEVICE_NAME" | awk '{print $2}')
     if [[ -n "$bt_mac" ]]; then
       echo "Dispositivo encontrado: $bt_mac"
-      echo "scan off" | bluetoothctl
       break
     fi
     sleep 1
@@ -39,6 +40,7 @@ configurar_bluetooth() {
     return 1
   fi
 
+  # Caminho para o script de conexão
   bt_script="$HOME/.sh/conectar-colunas.sh"
   mkdir -p "$HOME/.sh"
 
@@ -46,6 +48,7 @@ configurar_bluetooth() {
     info "Script de conexão bluetooth já existe. A substituir..."
   fi
 
+  # Criar o script de conexão
   cat > "$bt_script" <<EOF
 #!/bin/bash
 
@@ -61,11 +64,12 @@ EOF
 
   chmod +x "$bt_script"
 
-  autostart_dir="$HOME/.config/autostart"
-  autostart_file="$autostart_dir/conectar_colunas_bt.desktop"
+  # Criar entrada no autostart
+  autostart_dir="\$HOME/.config/autostart"
+  autostart_file="\$autostart_dir/conectar_colunas_bt.desktop"
 
-  mkdir -p "$autostart_dir"
-  cat > "$autostart_file" <<EOF
+  mkdir -p "\$autostart_dir"
+  cat > "\$autostart_file" <<EOF
 [Desktop Entry]
 Type=Application
 Exec=$bt_script
