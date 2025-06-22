@@ -1,3 +1,4 @@
+#!/bin/bash
 # Corrigir e adicionar localização ao Gnome-Weather
 
 localizacao_fix() {
@@ -8,76 +9,88 @@ info "Cancelado pelo utilizador."
 return
 fi
 
-if [[ ! -z "$(which gnome-weather)" ]]; then
+# Verifica se o GNOME Weather está instalado (sistema)
+if command -v gnome-weather >/dev/null 2>&1; then
 system=1
 fi
 
-if [[ ! -z "$(flatpak list | grep org.gnome.Weather)" ]]; then
+# Verifica se o GNOME Weather está instalado via Flatpak
+if flatpak list | grep -q org.gnome.Weather; then
 flatpak=1
 fi
 
-if [[ ! $system == 1 && ! $flatpak == 1 ]]; then
-echo "GNOME Weather não está instalado"
-exit
+# Se não houver nenhuma instalação detectada, sai
+if [[ "$system" != "1" && "$flatpak" != "1" ]]; then
+echo "GNOME Weather não está instalado (nem como Flatpak nem como app do sistema)."
+exit 1
 fi
 
-if [[ ! -z "$*" ]]; then
+# Se foi passado argumento, usa como query. Senão, solicita ao usuário.
+if [[ -n "$*" ]]; then
 query="$*"
 else
-read -p "Introduza o nome do local que pretende adicionar ao GNOME Weather: " query
+read -rp "Introduza o nome do local que pretende adicionar ao GNOME Weather: " query
 fi
 
-query="$(echo $query | sed 's/ /+/g')"
+# Substitui espaços por "+" para URL encoding
+query="$(echo "$query" | sed 's/ /+/g')"
 
-request=$(curl "https://nominatim.openstreetmap.org/search?q=$query&format=json&limit=1" -s)
+# Faz a requisição à API do Nominatim
+request=$(curl -s "https://nominatim.openstreetmap.org/search?q=$query&format=json&limit=1")
 
-if [[ $request == "[]" ]]; then
-echo "Nenhum local encontrado, considere remover alguns termos de pesquisa"
-exit
+# Verifica se a resposta está vazia
+if [[ "$request" == "[]" || -z "$request" ]]; then
+echo "Nenhum local encontrado. Considere tentar com menos termos de pesquisa."
+exit 1
 fi
 
-read -p "Se este não for o local que pretende, considere adicionar termos de pesquisa
-Tem a certeza de que pretende adicionar $(echo $request | sed 's/.*"display_name":"//' | sed 's/".*//')? [y/n] : " answer
+# Extrai nome, latitude e longitude com sed
+display_name=$(echo "$request" | sed -n 's/.*"display_name":"\([^"]*\)".*/\1/p')
+lat=$(echo "$request" | sed -n 's/.*"lat":"\([^"]*\)".*/\1/p')
+lon=$(echo "$request" | sed -n 's/.*"lon":"\([^"]*\)".*/\1/p')
 
-if [[ ! $answer == "y" ]]; then
-echo "Não vamos adicionar a localização"
-exit
-else
-echo "A adicionar localização"
+# Confirma com o usuário
+echo "Local encontrado: $display_name"
+read -rp "Deseja adicionar esta localização ao GNOME Weather? [y/n]: " answer
+if [[ "$answer" != "y" ]]; then
+echo "Localização não adicionada."
+exit 0
 fi
 
-id=$(echo $request | sed 's/.*"place_id"://' | sed 's/,.*//')
+# Converte latitude e longitude para radianos
+lat_rad=$(echo "scale=10; $lat * (3.141592654 / 180)" | bc -l)
+lon_rad=$(echo "scale=10; $lon * (3.141592654 / 180)" | bc -l)
 
-name=$(curl "https://nominatim.openstreetmap.org/details.php?place_id=$id&format=json" -s | sed 's/.*"name": "//' | sed 's/".*//')
-
-lat=$(echo $request | sed 's/.*"lat":"//' | sed 's/".*//')
-lat=$(echo "$lat / (180 / 3.141592654)" | bc -l)
-
-lon=$(echo $request | sed 's/.*"lon":"//' | sed 's/".*//')
-lon=$(echo "$lon / (180 / 3.141592654)" | bc -l)
-
-if [[ $system == 1 ]]; then
+# Busca localizações existentes
+if [[ "$system" == "1" ]]; then
 locations=$(gsettings get org.gnome.Weather locations)
 fi
 
-if [[ $flatpak == 1 ]]; then
+if [[ "$flatpak" == "1" ]]; then
 locations=$(flatpak run --command=gsettings org.gnome.Weather get org.gnome.Weather locations)
 fi
 
-location="<(uint32 2, <('$name', '', false, [($lat, $lon)], @a(dd) [])>)>"
+# Prepara nova entrada de localização
+# Atenção: este formato depende da versão do GNOME e pode não funcionar se a estrutura mudar
+location="#<('$(echo "$display_name" | sed "s/'/\\\'/g")', '', false, [($lat_rad, $lon_rad)], @a(dd) [])>"
 
-if [[ $system == 1 ]]; then
-if [[ ! $(gsettings get org.gnome.Weather locations) == "@av []" ]]; then
-gsettings set org.gnome.Weather locations "$(echo $locations | sed "s|>]|>, $location]|")"
+# Adiciona à lista de locais
+if [[ "$system" == "1" ]]; then
+if [[ "$locations" != "@av []" ]]; then
+new_locations=$(echo "$locations" | sed "s|]$|, $location]|")
 else
-gsettings set org.gnome.Weather locations "[$location]"
+new_locations="[$location]"
 fi
+gsettings set org.gnome.Weather locations "$new_locations"
 fi
 
-if [[ $flatpak == 1 ]]; then
-if [[ ! $(flatpak run --command=gsettings org.gnome.Weather get org.gnome.Weather locations) == "@av []" ]]; then
-flatpak run --command=gsettings org.gnome.Weather set org.gnome.Weather locations "$(echo $locations | sed "s|>]|>, $location]|")"
+if [[ "$flatpak" == "1" ]]; then
+if [[ "$locations" != "@av []" ]]; then
+new_locations=$(echo "$locations" | sed "s|]$|, $location]|")
 else
-flatpak run --command=gsettings org.gnome.Weather set org.gnome.Weather locations "[$location]"
+new_locations="[$location]"
 fi
+flatpak run --command=gsettings org.gnome.Weather set org.gnome.Weather locations "$new_locations"
 fi
+
+echo "Localização adicionada com sucesso ao GNOME Weather."
