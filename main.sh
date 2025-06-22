@@ -23,6 +23,7 @@ done
 
 # Carrega funções essenciais e scripts auxiliares
 source "./core.sh"
+source "./utils.sh"
 
 # Iniciar sudo imediatamente (apenas uma vez)
 sudo -v
