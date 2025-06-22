@@ -89,7 +89,6 @@ done
 # Ações finais
 limpeza_final() {
 sucesso "Instalação concluída."
-rm -rf "$tmp_dir"
 }
 
 # Placeholder para ficheiros extra

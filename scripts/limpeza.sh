@@ -2,6 +2,12 @@
 
 limpeza_final() {
 log_section "A limpar os ficheiros não necessários da instalação."
+
+if ! confirmar; then
+info "Limpeza cancelada pelo utilizador."
+return
+fi
+
 if sudo dnf autoremove -y && sudo dnf clean all; then
 if [ "$apagar_log_automaticamente" = true ]; then
 rm -f "$log"

@@ -3,6 +3,11 @@
 configurar_bluetooth() {
 log_section "A configurar o bluetooth para arrancar automaticamente."
 
+if ! confirmar; then
+info "Configuração cancelada pelo utilizador."
+return
+fi
+
 # Verifica se bluetoothctl está disponível, senão instala bluez e blueman
 if ! command -v bluetoothctl &>/dev/null; then
 erro "Bluetoothctl não encontrado. A instalar bluez..."
