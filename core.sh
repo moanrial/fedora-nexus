@@ -49,8 +49,10 @@ log_section "$1" | tee -a "$log"
 
 # Transferir scripts auxiliares
 transferir_auxiliares() {
-base_url="https://raw.githubusercontent.com/moanrial/fedora-nexus/main/scripts/"  # substituir pelo teu URL real
+base_url="https://raw.githubusercontent.com/moanrial/fedora-nexus/main/scripts"  # substituir pelo teu URL real
 ficheiros=(atualizar_sistema.sh bluetooth.sh ficheiros_adicionais.sh instalar_flatpaks.sh instalar_pacotes.sh limpeza.sh localizacao.sh menu.sh montar_hdd.sh)
+
+mkdir -p scripts
 
 for ficheiro in "${ficheiros[@]}"; do
 destino="$script_dir/$ficheiro"

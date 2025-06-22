@@ -6,6 +6,11 @@
 source "./core.sh"
 transferir_auxiliares
 
+# Importa scripts da pasta scripts/
+for f in scripts/*.sh; do
+source "$f"
+done
+
 # Execução automática com flag --silent ou --auto
 if [[ "${1:-}" == "--silent" || "${1:-}" == "--auto" ]]; then
   manter_sudo_ativo &  # Garante sudo enquanto corre
