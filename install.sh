@@ -39,6 +39,9 @@ atualizar_sistema
 instalar_pacotes
 instalar_flatpaks
 ficheiros_adicionais
+localizacao_fix
+montar_hdd
+configurar_bluetooth
 limpeza_final
 info "Instalação completa."
 else
