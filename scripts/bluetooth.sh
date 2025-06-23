@@ -66,3 +66,5 @@ echo "Autostart criado em: $DESKTOP_FILE"
 
 echo
 echo "Instalação completa! As colunas serão conectadas automaticamente ao iniciar sessão."
+
+}
