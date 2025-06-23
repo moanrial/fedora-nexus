@@ -56,8 +56,6 @@ sudo dnf install -y kernel-headers v4l2loopback
 sudo flatpak install -y --noninteractive "$TMP_DIR/pteid-mw-pcsclite-2.3.flatpak" 2>/dev/null || true
 sudo dnf install -y "$TMP_DIR/plugin-autenticacao-gov_fedora.rpm"
 
-sucesso "Ficheiros adicionais instalados com sucesso."
-sleep 1.5
 
 # Instalar VisualStudioCode
 
@@ -66,5 +64,8 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 
 dnf check-update
 sudo dnf install code
+
+sucesso "Ficheiros adicionais instalados com sucesso."
+sleep 1.5
 
 }
