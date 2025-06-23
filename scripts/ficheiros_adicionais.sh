@@ -77,7 +77,7 @@ sudo dnf install -y code
 
 # A instalar drivers bluetooth em falta.
 
-sudo cp ./$TMP_DIR/BCM20702A1-0b05-17cb.hcd /lib/firmware/brcm/
+sudo cp "$TMP_DIR/BCM20702A1-0b05-17cb.hcd" "/lib/firmware/brcm/"
 
 sucesso "Ficheiros adicionais instalados com sucesso."
 sleep 3
