@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Conectividade Bluetooth
 
 configurar_bluetooth() {
