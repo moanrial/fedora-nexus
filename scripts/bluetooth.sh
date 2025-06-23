@@ -12,12 +12,14 @@ SCRIPT_PATH="$SCRIPT_DIR/ConectarColunas.sh"
 AUTOSTART_DIR="$HOME/.config/autostart"
 DESKTOP_FILE="$AUTOSTART_DIR/ConectarColunas.desktop"
 
-echo "🔧 Iniciar instalação automática para MAC: $BT_DEVICE"
+echo "Iniciar instalação automática para MAC: $BT_DEVICE"
+sleep 1.5
 
 # Verifica se comandos necessários existem
 for cmd in bluetoothctl pactl; do
 if ! command -v "$cmd" &> /dev/null; then
 echo "O comando '$cmd' não está disponível. Por favor, instala-o antes de continuar."
+sleep 1.5
 exit 1
 fi
 done
@@ -70,4 +72,5 @@ EOF
 echo "Autostart criado em: $DESKTOP_FILE"
 echo
 echo "Instalação completa! As colunas serão conectadas automaticamente ao iniciar sessão."
+sleep 1.5
 }
