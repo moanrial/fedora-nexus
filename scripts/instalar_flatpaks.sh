@@ -24,6 +24,7 @@ io.github.limo_app.limo
 io.github.loot.loot
 org.ferdium.Ferdium
 com.github.tchx84.Flatseal
+io.gpt4all.gpt4all
 )
 
 for app in "${flatpaks[@]}"; do
