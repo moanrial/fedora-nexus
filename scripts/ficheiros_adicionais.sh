@@ -7,6 +7,7 @@ return
 fi
 
 mkdir -p "$TMP_DIR"
+mkdir -p "/lib/firmware/brcm"
 
 # Transferência de ficheiros extra
 info "A transferir ficheiros extra."
@@ -15,6 +16,7 @@ ficheiros=(
 "https://droidcam.app/go/droidCam.client.setup.rpm"
 "https://aplicacoes.autenticacao.gov.pt/apps/pteid-mw-pcsclite-2.3.flatpak"
 "https://aplicacoes.autenticacao.gov.pt/plugin/plugin-autenticacao-gov_fedora.rpm"
+"https://raw.githubusercontent.com/winterheart/broadcom-bt-firmware/refs/heads/master/brcm/BCM20702A1-0b05-17cb.hcd"
 )
 
 for url in "${ficheiros[@]}"; do
@@ -73,6 +75,10 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
 dnf check-update || true
 sudo dnf install -y code
 
+# A instalar drivers bluetooth em falta.
+
+sudo cp ./$TMP_DIR/BCM20702A1-0b05-17cb.hcd /lib/firmware/brcm/
+
 sucesso "Ficheiros adicionais instalados com sucesso."
-sleep 1.5
+sleep 3
 }
